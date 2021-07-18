@@ -5,18 +5,18 @@ Esercizi di SO in C scritti utilizzando la libreria pthread e lo standard POSIX
 La presente è una guida valida per i sistemi GNU/Linux.
 
 * Installa git:
-* Debian e derivate (Ubuntu, KDE Neon, Deepin e etc.)
-```console
-sudo apt-get install git
-```
-* Fedora e derivate (RHEL, CentOS)
-```console
-sudo dnf install git
-```
-* Arch e derivate
-```console
-sudo pacman -S git
-```
+  * Debian e derivate (Ubuntu, KDE Neon, Deepin e etc.)
+  ```console
+  sudo apt-get install git
+  ```
+  * Fedora e derivate (RHEL, CentOS)
+  ```console
+  sudo dnf install git
+  ```
+  * Arch e derivate
+  ```console
+  sudo pacman -S git
+  ```
 
 * Creazione di una nuova cartella dove contenere il repository in locale
 ```console
