@@ -2,10 +2,30 @@
 Esercizi di SO in C scritti utilizzando la libreria pthread e lo standard POSIX
 
 # Come scaricare il materiale.
+La presente è una guida valida per i sistemi GNU/Linux.
+
+* Installa git:
+* Debian e derivate (Ubuntu, KDE Neon, Deepin e etc.)
+```console
+sudo apt-get install git
+```
+* Fedora e derivate (RHEL, CentOS)
+```console
+sudo dnf install git
+```
+* Arch e derivate
+```console
+sudo pacman -S git
+```
+
+* Creazione di una nuova cartella dove contenere il repository in locale
+```console
+mkdir /Documenti/[nome_cartella]
+```
 
 * Spostarsi nella cartella desiderata
 ```console
-cd Documenti/Esercizi
+cd Documenti/[nome_cartella]
 ```
 * Clonare il repository
 ```console
