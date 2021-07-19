@@ -1,3 +1,17 @@
+/*Un ufficio postale eroga due tipo di servizi A e B.
+Nell'ufficio sono aperti N sportelli per il servizio
+A e M sportelli per il servizio B.
+All'arrivo, un cliente prende un numero per il 
+servizio richiesto ed attende il suo turno.
+Ogni impiegato dopo aver servito un cliente,
+chiama il numero successivo per il servizio erogato dal proprio sportello. 
+Nel caso in cui non ci siano clienti l'Impiegato si 
+mette in attesa e viene risvegliato dall'arrivo
+di un nuovo cliente. L'ufficio non accetta 
+prenotazioni per il servizio A dopo l'ora X e per
+il servizio B dopo l'ora Y.*/
+
+
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
