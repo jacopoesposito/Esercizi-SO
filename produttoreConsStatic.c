@@ -3,7 +3,8 @@ lacia n (con n>1) thread produttori che scrivono concorrentemente numeri generat
 nell'intervallo [1,15] ed un thread consumatore che legge i numeri prodotti. Il thread consumatore
 inizia l'attività solo dopo che i produttori hanno finito di produrre. Il numero di elementi
 da produrre (>100000) e il numero di thread produttori (<=30) deve essere specificato da riga
-di comando. Usare mutex e variabili di condizione.*/
+di comando. Usare mutex e variabili di condizione. 29-10-2013 Esercizio 1*/
+//Nell'esercizio sono state effettuate alcune modifiche in merito al numero di produzione per facilitare i test
 
 //Per inizializzare un mutex dinamico prima lo si dichiara come *variabile globale, 
 //poi si fa la malloc di size Pthread_mutex_t, dopodichè si chiama il metodo init

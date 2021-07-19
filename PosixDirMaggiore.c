@@ -1,6 +1,6 @@
 /* Scrivere un programma C e POSIX sotto Linux che, presa in input una cartella, 
 dopo averne analizzato il suo contenuto, identifichi il file di lunghezza massima 
-e ne stampi la maschera dei permessi relativi agli altri */
+e ne stampi la maschera dei permessi relativi agli altri Traccia 22-06-2021 Esercizio 4*/
 
 #include <unistd.h>
 #include <sys/types.h>
