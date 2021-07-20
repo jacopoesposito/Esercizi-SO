@@ -18,12 +18,14 @@ int main(int argc, char *argv[]){
     unsigned short min = SHRT_MAX;
     struct stat fileStat;
 
-    dir = opendir(argv[1]);
+    dir = opendir(argv[1]); //Apro la cartella data in input
 
+    //Se dir = NULL allora la cartella non esiste
     if (dir==NULL){
         printf("La directory non esiste");
     }
     
+    //Leggo i file presenti nella cartella fintanto che non trovo il file più piccolo
     file1 = readdir(dir);
     while((file = readdir(dir))!=NULL){
         if (file1->d_reclen <= file->d_reclen){
@@ -32,22 +34,23 @@ int main(int argc, char *argv[]){
         }
     }
     char resolved_path[PATH_MAX];
-    realpath(argv[1], resolved_path);
+    realpath(argv[1], resolved_path); //Trovo il path della cartella
     char buff[1000];
 
     //char partialPath = strcat(resolved_path, "/");
     //char absolutePath = strcat(partialPath, file1->d_name);
    
     //printf("%s\n", absolutePath); //Unire il resolved path a /file->d_name
-    sprintf(buff, "%s/%s", resolved_path, file1->d_name);
+    sprintf(buff, "%s/%s", resolved_path, file1->d_name); //Trovo il path assoluto del file, unendo la stringa che contiene il path della cartella con il nome del file.
     printf("%s\n", buff);
     printf("%s\n",file1->d_name);
     
+    //Stampo i permessi relativi al file appena individuato grazie all'uso della struct fileStat
     if (stat(buff, &fileStat)<0)
                 return 1;
             printf((fileStat.st_mode & S_IROTH) ? "r" : "-");
             printf((fileStat.st_mode & S_IWOTH) ? "w" : "-");
-            printf((fileStat.st_mode & S_IROTH) ? "x" : "-");
+            printf((fileStat.st_mode & S_IXOTH) ? "x" : "-");
             printf("\n");
     
 }
