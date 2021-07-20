@@ -34,7 +34,7 @@ int main(int argc, char **argv){
 
     //Utilizzo semafori per nome
     sem_init(&empty, 0, 1);
-    sem_init(&full, 0, 1);
+    sem_init(&full, 0, 0);
 
 
     //Inizializzo i thread con la malloc
@@ -62,7 +62,10 @@ int main(int argc, char **argv){
         pthread_join(operaiConsumatori[n], NULL); //joino i thread consumatori
     }
 
-  
+    //Stampo l'array forno dopo che i produttori e i consumatori hanno finito di lavorare
+    for(int m = 0; m < N; m++){
+        printf("Piastrella: %d ID:%d\n", forno[m], m);
+    }
 
     pthread_mutex_destroy(&mutex); //distruggo il mutex
     sem_destroy(&empty); //distruggo i semafori
@@ -73,13 +76,13 @@ int main(int argc, char **argv){
 }
 
 void *produci(void *arg){
-    sem_wait(&empty);  //Se vuoto aspetta che sia riempito, all'inzio il semaforo binario è inizializzato a 0 quindi passa la wait
+    sem_wait(&empty);  //Se vuoto aspetta che sia riempito, all'inzio il semaforo binario è inizializzato a 1 quindi passa la wait
         if(forno[indiceA]==0 && indiceA < 10){
             pthread_mutex_lock(&mutex); //Blocco il mutex e accedo alla sezione critica
             int r = (int)(1.0 + 2.0 * rand() / RAND_MAX); //Genero int randomico compreso fra 1 e 2, 1 rappresenta una piastrella buona, due una rotta
             forno[indiceA]=r;
             //printf("%d\n", r);
-            printf("%d %d\n", forno[indiceA], indiceA);
+            //printf("%d %d\n", forno[indiceA], indiceA);
             indiceA++;
             pthread_mutex_unlock(&mutex); 
         }
@@ -100,7 +103,8 @@ void *consuma(void *arg){
             forno[indiceB]=0;
             //printf("%d %d\n", forno[indiceB], indiceB);
             if(indiceB < 9){
-            forno[indiceB++]=0;
+            indiceB++;
+            forno[indiceB]=0;
             //printf("%d %d\n", forno[indiceB], indiceB);
             }
             pthread_mutex_unlock(&mutex);
