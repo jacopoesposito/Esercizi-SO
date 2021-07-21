@@ -16,12 +16,10 @@ int main(int argc, char **argv){
     struct dirent *file;
     struct dirent *fileTrovato;
     struct stat fileStat;
-    struct stat fileStat2;
     struct stat fileStat3;
     char buff[1000];
     char symbolicFile[1000];
     char resolved_path[PATH_MAX];
-    char nomeFileLinkato[PATH_MAX];
 
     if(argc > 2){
         printf("Errore input!");
@@ -45,8 +43,10 @@ int main(int argc, char **argv){
             printf("%s\n", realpath(symbolicFile, resolved_path)); //in modo tale da trovarmi il path assoluto, dopodichè trovo tramite realpath il path a cui il file simbolico punta 
             //printf("%s\n", basename(resolved_path));
             stat(basename(resolved_path), &fileStat3); //accedo alla struct stat del file puntato dal link simbolico grazie al metodo basename che fornito in input un path ritorna il nome del file
-            printf("trovato un link simbolico: %s, nome file associato: %s, dimensione: %d, bit-user id: %d\n", 
-            file->d_name, basename(resolved_path), fileStat3.st_size, fileStat3.st_uid); //Leggo tutti i dati a cui sono interessato
+        
+            printf("trovato un link simbolico: %s, nome file associato: %s, dimensione: %d, permersso lettura: %s, permesso scrittura: %s, permesso exec: %s\n", 
+            file->d_name, basename(resolved_path), fileStat3.st_size, (fileStat3.st_mode & S_IRUSR) ? "r" : "-", (fileStat3.st_mode & S_IWUSR) ? "w" : "-", 
+            (fileStat3.st_mode & S_IXUSR) ? "x" : "-"); //Leggo tutti i dati a cui sono interessato
             }
     
     }
