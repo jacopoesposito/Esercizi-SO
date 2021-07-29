@@ -24,25 +24,25 @@ pid_t fatherPid;
 
 struct sigaction new;
 
-static void sumPid(int signo);
+static void sumPid(int signo); //Signal handler
 
 int main(int argc, char **argv){
     
     char *a = argv[1];
     N = atoi(a);
     
-    sigset_t block_mask;
+    sigset_t block_mask; //Maschera per bloccare eventuali segnali durante l'esecuzione dell'handler
 
-    sigemptyset (&block_mask);
+    sigemptyset (&block_mask); //Inizializzazione
     /* Block other terminal-generated signals while handler runs. */
-    sigaddset (&block_mask, SIGINT);
-    sigaddset (&block_mask, SIGQUIT);
-    new.sa_handler = sumPid;
-    new.sa_mask = block_mask;
+    sigaddset (&block_mask, SIGINT); //Aggiungo alla maschera il segnale SIGINT
+    sigaddset (&block_mask, SIGQUIT); //Aggiungo alla maschera il segnale SIGQUIT
+    new.sa_handler = sumPid; //Associo l'Handler
+    new.sa_mask = block_mask; //Imposto la maschera
     new.sa_flags = 0;
     
-    sigaction(SIGUSR1, &new, NULL);
-    sigaction(SIGUSR2, &new, NULL);
+    sigaction(SIGUSR1, &new, NULL); //Associo a SIGUSR1 la struct new precedentemente inizializzata
+    sigaction(SIGUSR2, &new, NULL); //Associo a SIGUSR2 la struct new precedentemente inizializzata
     fatherPid = getpid();
 
     if(N > 1 && N < 100){
