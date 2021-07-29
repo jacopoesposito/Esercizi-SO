@@ -22,9 +22,10 @@ pid_t f2;
 pid_t summedPid;
 pid_t fatherPid;
 
-struct sigaction new;
+struct sigaction new, new1;
 
 static void sumPid(int signo); //Signal handler
+static void subPid(int signo);
 
 int main(int argc, char **argv){
     
@@ -40,9 +41,12 @@ int main(int argc, char **argv){
     new.sa_handler = sumPid; //Associo l'Handler
     new.sa_mask = block_mask; //Imposto la maschera
     new.sa_flags = 0;
+
+    new1.sa_handler = subPid;
+    new1.sa_mask = block_mask;
     
     sigaction(SIGUSR1, &new, NULL); //Associo a SIGUSR1 la struct new precedentemente inizializzata
-    sigaction(SIGUSR2, &new, NULL); //Associo a SIGUSR2 la struct new precedentemente inizializzata
+    sigaction(SIGUSR2, &new1, NULL); //Associo a SIGUSR2 la struct new precedentemente inizializzata
     fatherPid = getpid();
 
     if(N > 1 && N < 100){
@@ -83,8 +87,11 @@ static void sumPid(int signo){
         summedPid = getpid() + fatherPid;
         printf("PID %d ha calcolato la somma %d\n", getpid(), summedPid);
     }
+}
+
+static void subPid(int signo){
     if(signo == SIGUSR2) {
-        summedPid = getpid() + fatherPid;
-        printf("PID %d ha calcolato la somma %d\n", getpid(), summedPid);
+        summedPid = fatherPid - getpid();
+        printf("PID %d ha calcolato la differenza %d\n", getpid(), summedPid);
     }
 }
