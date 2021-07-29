@@ -58,17 +58,13 @@ int main(int argc, char **argv){
             if(f1 != 0 && f2 != 0){
                 //printf("%d\n", f1);
                 kill(f1, SIGUSR1);
-            }
-            if(f2 == 0 && f1 != 0){
-                printf("Pid di f2: %d\n", getpid());
+                kill(f2, SIGUSR1);
             }
         }
         else{
             if(f1 != 0 && f2 != 0){
                 kill(f2, SIGUSR2);
-            }
-            if(f1 == 0){
-                printf("Pid di f1: %d\n", getpid());
+                kill(f1, SIGUSR2);
             }
         }
     }
@@ -79,19 +75,31 @@ int main(int argc, char **argv){
     wait(NULL);
     wait(NULL);
 
+    if(f1 != 0 && f2 != 0){
+        printf("Ecco il prodotto dei miei figli: %ld\n", f1*f2);
+        printf("Nothing can stop that now, just for once let me look at you with my own eyes now go my childs, leave me.\n");
+    }
+
     return 0;
 }
 
 static void sumPid(int signo){
-    if(signo == SIGUSR1){ 
+    if(signo == SIGUSR1 && f1 == 0){ 
         summedPid = getpid() + fatherPid;
         printf("PID %d ha calcolato la somma %d\n", getpid(), summedPid);
     }
+    if(f2 == 0 && f1 != 0){
+        printf("Pid di f2: %d\n", getpid());
+    }
+    
 }
 
 static void subPid(int signo){
-    if(signo == SIGUSR2) {
+    if(signo == SIGUSR2 && f1 != 0) {
         summedPid = fatherPid - getpid();
         printf("PID %d ha calcolato la differenza %d\n", getpid(), summedPid);
+    }
+    if(f1 == 0){
+        printf("Pid di f1: %d\n", getpid());
     }
 }
