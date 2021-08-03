@@ -54,7 +54,10 @@ int main(int argc, char **argv){
     stampaMatrice(matrix);
     printf("\n Il valore della mediana massima è -> %d\n", valueMax);
 
+    free(matrix);
     pthread_mutex_destroy(&mutex);
+
+    return 0;
 }
 
 void *findMedianaMax(void *arg){
