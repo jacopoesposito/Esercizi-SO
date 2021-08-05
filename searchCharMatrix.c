@@ -74,7 +74,7 @@ void *cerca(void *arg){
                 for(int i = 0; i < n; i++)
                     pthread_cond_signal(&condition);
             }
-            if(indice==n*n){ //Se l'indice è uguale alla grandezza della matrice allora nessun elemento è stato trovato, setto check a 1 e faccio la signal
+            if(indice==n*n && matrix[row][col]!=elemento){ //Se l'indice è uguale alla grandezza della matrice allora nessun elemento è stato trovato, setto check a 1 e faccio la signal
                 fprintf(stdout, "NESSUNA CORRISPONDENZA TROVATA, 你好!\n");
                 check = 1;
                 for(int j = 0; j < n; j++)
