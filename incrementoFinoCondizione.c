@@ -23,6 +23,7 @@ void *checking(void *arg);
 void *produci(void *arg);
 
 int main(int argc, char **argv){
+    srand(time(NULL));
 
     if(argc < 2){
         fprintf(stderr, "Errore Input");
