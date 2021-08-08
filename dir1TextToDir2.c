@@ -34,7 +34,7 @@ int main(int argc, char **argv){
     }
 
     if((dir1=opendir(argv[1]))==NULL){
-        fprintf(stderr, "Impossibile aprire la directory di origine non esiste!");
+        fprintf(stderr, "Impossibile aprire la directory di origine!");
         exit(-2);
     }
 
