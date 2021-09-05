@@ -1,5 +1,5 @@
-/* Scrivere un programma Trovafile.c che quando invocato con Trovafile ext directory trovi 
-tutti i file a partire dalla directory di nome directory che hanno come estensione ext e ne verifichi i diritti di lettura per altri e la dimensione.
+/* Scrivere un programma Trovafile.c che quando invocato con Trovafile PDF directory trovi 
+tutti i file a partire dalla directory di nome directory che hanno come estensione PDF e ne verifichi i diritti di lettura per altri e la dimensione.
 Individuato il file di dimensione massima, il programma deve creare un file con lo stesso nome e con estensione txt nella directory corrente 
 in cui scrivere i nomi dei file. */
 
