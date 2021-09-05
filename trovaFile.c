@@ -23,6 +23,7 @@ char *nameFileMax;
 char currentDir[PATH_MAX];
 int value = INT_MIN;
 int indice = 0;
+int check = 0;
 
 typedef struct{
     char *filename;
@@ -55,37 +56,45 @@ int main(int argc, char **argv){
             if(fileStat.st_size>value){ //Controllo qual'è il file di dimensioni maggiori e mi salvo il nome.
                 value = fileStat.st_size;
                 nameFileMax = file->d_name;
+                check = 1;
             }
 
         }
     }
 
-    
-    getcwd(currentDir, sizeof(currentDir)); //Inserisco all'interno del buffer currentDir il path della cartella corrente
-    chdir(currentDir); //Cambio cartella
+    if(check == 1){
+        getcwd(currentDir, sizeof(currentDir)); //Inserisco all'interno del buffer currentDir il path della cartella corrente
+        chdir(currentDir); //Cambio cartella
 
-    char buff[PATH_MAX];
-    sprintf(buff, "%s%s", nameFileMax, ".txt"); //Concateno alla stringa nameFileMax l'estensione .txt
-    creat(buff, S_IRWXU | S_IRGRP | S_IROTH); //Creo il nuovo file col nome desiderato e imposto i permessi 
-    int fd;
-    if((fd = open(buff, O_RDWR))==-1){
-        perror("Errore apertura file");
+        char buff[PATH_MAX];
+        sprintf(buff, "%s%s", nameFileMax, ".txt"); //Concateno alla stringa nameFileMax l'estensione .txt
+        creat(buff, S_IRWXU | S_IRGRP | S_IROTH); //Creo il nuovo file col nome desiderato e imposto i permessi 
+        int fd;
+        if((fd = open(buff, O_RDWR))==-1){
+            perror("Errore apertura file");
+        }
+
+        for(int i = 0; i < indice; i++){
+            printf("%s\n", nlist[i].filename);
+        }
+        int offset;
+        int filesize; 
+
+        for(int i = 0; i < indice; i++){
+            filesize = strlen(nlist[i].filename); //Mi ricavo la lunghezza dell'iesima stringa da scrivere nel file
+            offset += filesize+1; //Imposto l'offset in maniera tale da non riscontrare problemi di sovrascrittura
+            write(fd, nlist[i].filename, filesize);
+            write(fd, "\n", 1);
+            lseek(fd, offset, SEEK_SET);
+        }
+
+        close(fd);
+        closedir(dir);
+    }else{
+        printf("Nessun file PDF trovato\n");
+        closedir(dir);
     }
 
-    for(int i = 0; i < indice; i++){
-        printf("%s\n", nlist[i].filename);
-    }
-    int offset;
-    int filesize; 
-
-    for(int i = 0; i < indice; i++){
-        filesize = strlen(nlist[i].filename); //Mi ricavo la lunghezza dell'iesima stringa da scrivere nel file
-        offset += filesize; //Imposto l'offset in maniera tale da non riscontrare problemi di sovrascrittura
-        write(fd, nlist[i].filename, filesize);
-        lseek(fd, offset, SEEK_SET);
-    }
-
-    close(fd);
-    closedir(dir);
+    return 0;
     
 }
