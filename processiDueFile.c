@@ -59,6 +59,7 @@ int main(int argc, char **argv){
 		write(fd2, &bufferWrite, strlen(bufferWrite));
 		printf("Taglia e incolla completato!\n");
 		close(fd2);
+		remove("file_tmp.txt");
 		exit(0);
 	}
 
