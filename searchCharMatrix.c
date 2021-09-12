@@ -62,21 +62,18 @@ int main(int argc, char **argv){
 void *cerca(void *arg){
 
     int row = (*(int *) arg);
-    //pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(&mutex); //Inserisco un unico mutex perchè i controlli da fare all'interno del for sono molti, e non è conveniente aprire e chiudere il mutex
         for(int col = 0; col < n; col++){
             if(check==1){ //Se check è uguale ad uno l'elemento è stato trovato e quindi l'iesimo thread esce dal ciclo e aspetta la signal
                 break;
             }
-	    pthread_mutex_lock(&mutex);
             indice++;
-	    pthread_mutex_unlock(&mutex);
             if(matrix[row][col]==elemento){ //Se trovo l'elemento lo comunico all'utente, setto check a 1 ed eseguo la signal ai thread in attesa
                 fprintf(stdout, "Elemento Trovato! Posizione->[%d][%d]\n", row, col);
                 check = 1;
                 for(int i = 0; i < n; i++)
                     pthread_cond_signal(&condition);
             }
-	    pthread_mutex_lock(&mutex);
             if(indice==n*n && matrix[row][col]!=elemento){ //Se l'indice è uguale alla grandezza della matrice allora nessun elemento è stato trovato, setto check a 1 e faccio la signal
                 fprintf(stdout, "NESSUNA CORRISPONDENZA TROVATA, 你好!\n");
                 check = 1;
@@ -84,9 +81,8 @@ void *cerca(void *arg){
                 for(int j = 0; j < n; j++)
                     pthread_cond_signal(&condition);
             }
-	    pthread_mutex_unlock(&mutex);
         }
-    //pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&mutex);
 
     pthread_mutex_lock(&mutex);
         while(check==0) //Se non ho trovato elementi mi metto in attesa della signal
